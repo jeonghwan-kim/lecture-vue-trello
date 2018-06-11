@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../components/Home'
 import Login from '../components/Login'
 import Board from '../components/Board'
+import Card from '../components/Card'
 import NotFound from '../components/NotFound'
 import {isAuthenticated} from '../auth'
 
@@ -20,7 +21,11 @@ export default new VueRouter({
   routes: [
     { path: '/', component: Home, beforeEnter: requireAuth() },
     { path: '/login', component: Login },
-    { path: '/board/:id', component: Board, beforeEnter: requireAuth() },
+    { path: '/board/:id', component: Board, beforeEnter: requireAuth(),
+      children: [
+        { path: 'card/:cid', component: Card }
+      ]  
+    },
     { path: '*', component: NotFound },
   ]
 })

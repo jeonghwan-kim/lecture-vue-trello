@@ -4,24 +4,29 @@
     <div v-for="(list, i) in board.lists" :key="i">
       <ul>
         <li>
-          {{list.title}}
+          <list :list="list" @doneAddCard="fetchData"></list>
         </li>
       </ul>
     </div>
+    <router-view :boardId="board.id"></router-view>
   </div>
 </template>
 
 <script>
 import {board} from '../api'
+import List from './List.vue'
 
 export default {
   data () {
     return {
-      board: {}
+      board: {},
     }
   },
+  components: {
+    List
+  },
   watch: {
-    '$router': {
+    '$route': {
       handler: 'fetchData',
       immediate: true
     }
@@ -29,12 +34,11 @@ export default {
   methods: {
     fetchData() {
       board.fetch(this.$route.params.id).then(({item}) => {
-        console.log(item)
         this.board = item
       }).catch(err => {
         console.log(err)
       })
-    }
+    },
   }
 }
 </script>

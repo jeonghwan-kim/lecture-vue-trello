@@ -11,7 +11,7 @@ const request = {
   delete(path) {
     return axios.delete(`${domain + path}`)
   },
-  update(path, data) {
+  put(path, data) {
     return axios.put(`${domain + path}`, data)
   }
 }
@@ -34,7 +34,21 @@ const board = {
   }
 }
 
+const card = {
+  fetch(id) {
+    return request.get(`/cards/${id}`).then(({ data }) => data)
+  },
+  create(title, listId) {
+    return request.post(`/cards`, {title, listId}).then(({ data }) => data)
+  },
+  update(id, data) {
+    return request.put(`/cards/${id}`, data).then(({ data }) => data)
+  }
+}
+
+
 export {
   auth,
-  board
+  board,
+  card
 }

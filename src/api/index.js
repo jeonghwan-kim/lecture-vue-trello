@@ -23,8 +23,14 @@ const auth = {
 }
 
 const board = {
-  fetch() {
+  fetch(id) {
+    if (id) {
+      return request.get(`/boards/${id}`).then(({ data }) => data)
+    }
     return request.get('/boards').then(({data}) => data)
+  },
+  create (title) {
+    return request.post('/boards', { title }).then(({ data }) => data)
   }
 }
 

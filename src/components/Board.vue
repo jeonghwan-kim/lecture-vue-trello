@@ -4,7 +4,9 @@
     <div v-for="(list, i) in board.lists" :key="i">
       <ul>
         <li>
-          <list :list="list" @doneAddCard="fetchData"></list>
+          <list :list="list" 
+            @doneAddCard="fetchData" 
+            @doneUpdateCard="fetchData"></list>
         </li>
       </ul>
     </div>

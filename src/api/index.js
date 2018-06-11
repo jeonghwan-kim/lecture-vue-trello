@@ -38,8 +38,8 @@ const card = {
   fetch(id) {
     return request.get(`/cards/${id}`).then(({ data }) => data)
   },
-  create(title, listId) {
-    return request.post(`/cards`, {title, listId}).then(({ data }) => data)
+  create(title, listId, pos) {
+    return request.post(`/cards`, {title, listId, pos}).then(({ data }) => data)
   },
   update(id, data) {
     return request.put(`/cards/${id}`, data).then(({ data }) => data)

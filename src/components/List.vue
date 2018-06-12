@@ -1,30 +1,30 @@
 <template>
-  <div class="list">
-    <h3>
-      {{list.title}}
-    </h3>
-    <div>
-      <div v-for="(card, i) in sortedCards" :key="i">
-        <card-item :card="card" :boardId="list.boardId" 
-          @dropCard="onDropCard"
-          @dragoverCard="onDragoverCard"></card-item> 
-      </div>   
-    </div>
-    <div v-show="isAddCard">
-      <form @submit.prevent="onSubmitNewCard">
-        <div>
-          <input type="text" v-model="inputCardTitle" ref="inputCardTitle">
-        </div>
-        <div>
-          <button type="submit" :disabled="invalidInput">Add</button>
-          <a href="" @click.prevent="onCancelAddCard">X</a>
-        </div>
-      </form>
-    </div>
-    <div>
-      <a href="" @click.prevent="onClickAddCard">Add a card...</a>
-    </div>
-  </div>
+  <ul class="list">
+    <li>
+      <h2 class="list-title">{{list.title}}</h2>
+    </li>
+    <li v-for="(card, i) in sortedCards" :key="i" >
+      <card-item :card="card" :boardId="list.boardId" 
+        @dropCard="onDropCard"
+        @dragoverCard="onDragoverCard"></card-item> 
+    </li>
+    <li>
+      <div v-show="isAddCard">
+        <form @submit.prevent="onSubmitNewCard">
+          <div>
+            <input type="text" v-model="inputCardTitle" ref="inputCardTitle">
+          </div>
+          <div>
+            <button type="submit" class="btn btn-success" :disabled="invalidInput">Add</button>
+            <a href="" @click.prevent="onCancelAddCard"><i class="fas fa-times"></i></a>
+          </div>
+        </form>
+      </div>
+    </li>
+    <li>
+      <a href="" class="text-grey" @click.prevent="onClickAddCard">Add a card...</a>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -115,9 +115,24 @@ export default {
 <style>
 .list {
   display: inline-block;
-  padding: 10px;
-  border: 1px solid grey;
-  background-color: burlywood;
+  width: 270px;
+  padding: 0 0 16px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #e2e4e6;
+  vertical-align: top;
+}
+.list li {
+  padding: 10px 15px 0;
+}
+.list li:first-child {
+  margin: 0;
+}
+.list li:last-child {
   
+}
+.list-title {
+  font-size: 100%;
 }
 </style>

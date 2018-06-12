@@ -1,7 +1,7 @@
 <template>
   <div class="card-item" draggable="true" @dragstart="onDragstart"
     @drop.prevent="onDrop" @dragover.prevent="onDragover" :data-card-id="card.id">
-    <router-link :to="`/board/${boardId}/card/${card.id}`">
+    <router-link :to="`/board/${boardIㅇd}/card/${card.id}`" class="text-darkgrey">
       {{card.title}}
     </router-link>
     {{card.y}}
@@ -39,10 +39,12 @@ export default {
 
 <style>
 .card-item {
+  min-height: 20px;
   display: block;
-  padding: 10px;
-  border: solid 1px grey;
-  border-radius: 4px;
-  background-color: cyan;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 0 1px rgba(0,0,0,.1);
+  background-color: white;
+  padding: 6px 6px 2px 8px;
 }
 </style>

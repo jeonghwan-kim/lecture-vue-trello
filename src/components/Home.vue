@@ -1,17 +1,23 @@
 <template>
   <div>
-    <h2>Home</h2>
-    <div v-if="hasBoard">
-      <ul>
-        <li v-for="(board, i) in boards" :key="i">
-          <router-link :to="`/board/${board.id}`">
-            {{board.title}}
-          </router-link>
-        </li>
-      </ul>
+    <div class="title">
+      <h2>
+        <i class="fas fa-user"></i>
+        Personal Boards
+      </h2>
     </div>
-    <div>
-      <button @click="onClickCreateBoard">보드 생성</button>
+    <div v-if="hasBoard">
+      <span v-for="(board, i) in boards" :key="i">
+        <router-link :to="`/board/${board.id}`">
+          <div class="board-item text-white">
+            {{board.title}}
+          </div>
+        </router-link>
+      </span>
+    </div>
+    
+    <div class="board-item add-board">
+      <a href="" class="text-grey" @click.prevent="onClickCreateBoard">Create new board...</a>
     </div>
 
     <div v-show="onCreateBoard">
@@ -73,3 +79,25 @@ export default {
   }
 }
 </script>
+
+<style>
+.board-item {
+  display: inline-block;
+  padding: 10px;
+  background-color: lightskyblue;
+  border-radius: 3px;
+  width: 150px;
+  height: 80px;
+  font-weight: bold;
+  font-size: 120%;
+  margin: 0 15px 15px 0;
+}
+.board-item.add-board {
+  background-color: #e2e4e6;
+  font-weight: 500;
+  vertical-align: middle;
+  display: table-cell;
+  font-size: 100%;
+}
+</style>
+

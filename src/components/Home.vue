@@ -20,21 +20,38 @@
       <a href="" class="text-grey" @click.prevent="onClickCreateBoard">Create new board...</a>
     </div>
 
-    <div v-show="onCreateBoard">
-      <form @submit.prevent="onSubmitCreateBoard">
-        <input type="text" v-model="inputBoardTitle" ref="inputBoardTitle">
-        <button type="submit" :disabled="!isValidInput">Create Board</button>
-      </form>
-    </div>
+    <modal v-if="onCreateBoard">
+      <div slot="header">
+        <h2>
+          Create new board
+          <a href="" class="modal-default-button" @click.prevent="onCreateBoard = false">
+            <i class="fas fa-times"></i>
+          </a>
+        </h2>
+      </div>
+      <div slot="body">
+        <form id="add-board-form" @submit.prevent="onSubmitCreateBoard">
+          <input type="text" v-model="inputBoardTitle" ref="inputBoardTitle">
+        </form>
+      </div>
+      <div slot="footer">
+        <button type="submit" class="btn btn-success" form="add-board-form"
+            :disabled="!isValidInput">Create Board</button>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
 import {board} from '../api'
+import Modal from './Modal.vue'
 
 export default {
+  components: {
+    Modal
+  },
   data(){
-    return {
+    return {  
       boards: [],
       onCreateBoard: false,
       inputBoardTitle: '',
@@ -62,11 +79,11 @@ export default {
     },
     onClickCreateBoard() {
       this.onCreateBoard = true
-      setTimeout(_=> this.$refs.inputBoardTitle.focus(), 1)
+      setTimeout(_=> this.$refs.inputBoardTitle.focus(), 111)
     },
     onSubmitCreateBoard() {
       if (!this.inputBoardTitle.trim()) return 
-      
+
       board.create(this.inputBoardTitle).then(({item}) => {
         console.log(item)
         this.$router.push(`/board/${item.id}`)
@@ -75,7 +92,7 @@ export default {
       }).finally(()=> {
         this.onCreateBoard = false
       })
-    }
+    },
   }
 }
 </script>
@@ -99,5 +116,7 @@ export default {
   display: table-cell;
   font-size: 100%;
 }
-</style>
+.modal-add-board {
 
+}
+</style>

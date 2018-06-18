@@ -33,6 +33,7 @@ a:hover,
 a:focus,
 a:visited {
   text-decoration: none;
+  color: #000;
 }
 ul {
   list-style: none;
@@ -92,6 +93,11 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #5aac44;
   box-shadow: 0 1px 0 #519839;
   color: white;
+}
+.btn[disabled=disabled] {
+  color: #b6bbbf;
+  background: #f8f9f9;
+  box-shadow: none;
 }
 .text-white {
   color: #ffffff;

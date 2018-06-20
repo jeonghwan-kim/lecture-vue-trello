@@ -1,7 +1,7 @@
 <template>
   <div class="card-item" draggable="true" @dragstart="onDragstart"
     @drop.prevent="onDrop" @dragover.prevent="onDragover" :data-card-id="card.id">
-    <router-link :to="`/board/${boardIㅇd}/card/${card.id}`" class="text-darkgrey">
+    <router-link :to="`/board/${boardId}/card/${card.id}`" class="text-darkgrey">
       {{card.title}}
     </router-link>
     {{card.y}}

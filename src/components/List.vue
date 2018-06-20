@@ -97,7 +97,7 @@ export default {
       if (this.invalidInput) return 
       const lastCard = this.sortedCards[this.sortedCards.length - 1]
       let pos = 65535
-      if (lastCard) pos = pos + pos
+      if (lastCard) pos = lastCard.pos + pos
 
       card.create(this.inputCardTitle, this.list.id, pos).then(data => {
         this.$emit('doneAddCard')

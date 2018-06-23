@@ -2,18 +2,25 @@
   <div id="app">
     <nav class="navbar">
       <router-link to="/" class="navbar-menu-link logo">Trelno</router-link>
-      <router-link to="/login" class="navbar-menu-link right">Login</router-link>
+      <a href="" class="navbar-menu-link right" 
+        @click.prevent="logout" v-if="isAuthenicated">Logout</a>
+      <router-link v-else to="/login" class="navbar-menu-link right">Login</router-link>
     </nav>
     <router-view class="container"></router-view>
   </div>
 </template>
 
 <script>
+import {isAuthenticated, removeAccessToken} from './auth'
 export default {
   name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  computed: {
+    isAuthenicated: () => isAuthenticated()
+  },
+  methods: {
+    logout() {
+      removeAccessToken()
+      this.$router.push('/login')
     }
   }
 }

@@ -10,7 +10,7 @@
 
 <script>
 import {auth} from '../api'
-import {saveAccessToken, enhanceAccessToken} from '../auth'
+import {saveAccessToken, setAccessTokenOnHttpHeader} from '../auth'
 
 export default {
   data() {
@@ -28,7 +28,7 @@ export default {
       auth.login(this.email, this.password).then(({accessToken}) => {
         console.log(accessToken)
         saveAccessToken(accessToken)
-        enhanceAccessToken()
+        setAccessTokenOnHttpHeader()
         this.$router.push(this.returnPath)
       }).catch(err => {
         console.log(err)

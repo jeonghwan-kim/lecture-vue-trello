@@ -1,28 +1,19 @@
 import axios from 'axios'
-import {board} from './api'
 
-const saveAccessToken = (accessToken) => {
+export const saveAccessToken = (accessToken) => {
   localStorage.accessToken = accessToken
 }
 
-const removeAccessToken = () => {
+export const removeAccessToken = () => {
   delete localStorage.accessToken
 }
 
-const enhanceAccessToken = () => {
+export const setAccessTokenOnHttpHeader = () => {
   const { accessToken } = localStorage
   if (!accessToken) return
   axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 }
 
-const isAuthenticated = () => {
-  if (!localStorage.accessToken) return Promise.reject()
-  return board.fetch()
-}
-
-export {
-  saveAccessToken,
-  removeAccessToken,
-  enhanceAccessToken,
-  isAuthenticated
+export const isAuthenticated = () => {
+  return !!localStorage.accessToken
 }

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import {enhanceAccessToken} from './auth'
+import { setAccessTokenOnHttpHeader} from './auth'
 
-enhanceAccessToken()
+setAccessTokenOnHttpHeader()
 
 new Vue({
   el: '#app',

@@ -1,9 +1,20 @@
 import axios from 'axios'
+import router from '../router'
 
 const domain = 'http://localhost:3000'
+const Unauthorized = 401
+const onUnauthorized = () => {
+  router.push(`/login?returnPath=${encodeURIComponent(location.pathname)}`)
+}
+
 const request = {
   get(path) {
     return axios.get(`${domain + path}`)
+      .catch(({response}) => {
+        const {status} = response
+        if (status === Unauthorized) return onUnauthorized()
+        throw Error(response)
+      })
   },
   post(path, data) {
     return axios.post(`${domain + path}`, data)

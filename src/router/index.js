@@ -5,13 +5,13 @@ import Login from '../components/Login'
 import Board from '../components/Board'
 import Card from '../components/Card'
 import NotFound from '../components/NotFound'
-import {isAuthenticated} from '../auth'
+import store from '../store'
 
 Vue.use(VueRouter)
 
 const requireAuth = () => (from, to, next) => {
-  isAuthenticated() ? 
-    next() : 
+  !!store.state.accessToken ? 
+    next() :
     next(`/login?returnPath=${encodeURIComponent(from.path)}`)
 }
 

@@ -1,40 +1,29 @@
 <template>
   <div id="app">
-    <nav class="navbar">
-      <router-link to="/" class="navbar-menu-link logo">Trelno</router-link>
-      <a href="" class="navbar-menu-link right" 
-        @click.prevent="logout" v-if="isAuthenicated">Logout</a>
-      <router-link v-else to="/login" class="navbar-menu-link right">Login</router-link>
-    </nav>
+    <navbar />    
     <router-view class="container"></router-view>
   </div>
 </template>
 
 <script>
-import {isAuthenticated, removeAccessToken} from './auth'
+import Navbar from './components/Navbar.vue'
 export default {
   name: 'app',
-  computed: {
-    isAuthenicated: () => isAuthenticated()
-  },
-  methods: {
-    logout() {
-      removeAccessToken()
-      this.$router.push('/login')
-    }
+  components: {
+    Navbar
   }
 }
 </script>
 
 <style>
-input[type=text] {
+/* input[type=text] {
   width: 96%;
   border-radius: 4px;
   border: none;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
   margin-bottom: 10px;
   padding: 5px;
-}
+} */
 a, 
 a:hover,
 a:focus,
@@ -51,37 +40,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
   margin: 0;
 }
-.navbar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  padding: 6px;
-  background-color: #026aa7;
-  text-align: center;
-  box-shadow: 0 1px 1px rgba(0,0,0,.1);
-}
-.navbar > .logo {
-  width: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  background-color: rgba(0,0,0,0);
-  color: rgba(255,255,255, .4);
-}
-.navbar > .right {
-  position: absolute;
-  right: 10px;
-}
-.navbar-menu-link {
-  display: inline-block;
-  padding: 5px 10px;
-  background: rgba(255,255,255,.5);
-  border-radius: 3px;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
+
 .container {
   margin-top: 43px;
   padding: 5px 20px 60px;;

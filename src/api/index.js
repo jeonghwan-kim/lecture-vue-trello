@@ -27,13 +27,18 @@ const request = {
   }
 }
 
-const auth = {
+export const setAuthInHeader = token => {
+  axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null;
+}
+
+export const auth = {
   login(email, password) {
-    return request.post('/login', {email, password}).then(({data}) => data)
+    return request.post('/login', {email, password})
+      .then(({data}) => data)
   }
 }
 
-const board = {
+export const board = {
   fetch(id) {
     if (id) {
       return request.get(`/boards/${id}`).then(({ data }) => data)
@@ -45,7 +50,7 @@ const board = {
   }
 }
 
-const card = {
+export const card = {
   fetch(id) {
     return request.get(`/cards/${id}`).then(({ data }) => data)
   },
@@ -55,11 +60,4 @@ const card = {
   update(id, data) {
     return request.put(`/cards/${id}`, data).then(({ data }) => data)
   }
-}
-
-
-export {
-  auth,
-  board,
-  card
 }

@@ -1,28 +1,24 @@
 <template>
-  <ul class="list">
+  <ul>
     <li>
-      <h2 class="list-title">{{list.title}}</h2>
+      <h3>{{list.title}}</h3>
     </li>
     <li v-for="(card, i) in sortedCards" :key="i" >
       <card-item :card="card" :boardId="list.boardId" 
         @dropCard="onDropCard"
         @dragoverCard="onDragoverCard"></card-item> 
     </li>
-    <li>
-      <div v-show="isAddCard">
+    <li v-if="isAddCard">
+      <div>
         <form @submit.prevent="onSubmitNewCard">
-          <div>
-            <input type="text" v-model="inputCardTitle" ref="inputCardTitle">
-          </div>
-          <div>
-            <button type="submit" class="btn btn-success" :disabled="invalidInput">Add</button>
-            <a href="" @click.prevent="onCancelAddCard"><i class="fas fa-times"></i></a>
-          </div>
+          <input type="text" v-model="inputCardTitle" ref="inputCardTitle">
+          <button type="submit" :disabled="invalidInput">Add</button>
+          <a href="" @click.prevent="onCancelAddCard">X</a>
         </form>
       </div>
     </li>
     <li>
-      <a href="" class="text-grey" @click.prevent="onClickAddCard">Add a card...</a>
+      <a href="" @click.prevent="onClickAddCard">Add a card...</a>
     </li>
   </ul>
 </template>
@@ -51,8 +47,6 @@ export default {
     sortedCards() {
       return [...this.list.cards].sort((a, b) => a.pos - b.pos)
     }
-  },
-  created () {
   },
   methods: {
     onDropCard({moveCardId, targetCardId}) {
@@ -105,7 +99,6 @@ export default {
         console.log(err)
       }).finally(_=>{
         this.inputCardTitle = ''
-        this.isAddCard = false
       })
     },
   }
@@ -113,26 +106,8 @@ export default {
 </script>
 
 <style>
-.list {
+ul {
   display: inline-block;
-  width: 270px;
-  padding: 0 0 16px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 3px;
-  background-color: #e2e4e6;
   vertical-align: top;
-}
-.list li {
-  padding: 10px 15px 0;
-}
-.list li:first-child {
-  margin: 0;
-}
-.list li:last-child {
-  
-}
-.list-title {
-  font-size: 100%;
 }
 </style>

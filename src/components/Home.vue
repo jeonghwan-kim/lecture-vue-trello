@@ -2,7 +2,7 @@
   <div>
     <h2>Personal Boards</h2>
     <ul>
-      <li v-for="(board, i) in boards" :key="i">
+      <li v-for="(board, i) in boardList" :key="i">
         <router-link :to="`/board/${board.id}`">
           {{board.title}}
         </router-link>
@@ -11,81 +11,36 @@
         <a href="" @click.prevent="onClickCreateBoard">Create new board...</a>
       </li>
     </ul>
-    
-
-    <modal v-if="onCreateBoard">
-      <div slot="header">
-        <h2>
-          Create new board
-          <a href="" class="modal-default-button" @click.prevent="onCreateBoard = false">
-            X
-          </a>
-        </h2>
-      </div>
-      <div slot="body">
-        <form id="add-board-form" @submit.prevent="onSubmitCreateBoard">
-          <input type="text" v-model="inputBoardTitle" ref="inputBoardTitle">
-        </form>
-      </div>
-      <div slot="footer">
-        <button type="submit" form="add-board-form"
-            :disabled="!isValidInput">Create Board</button>
-      </div>
-    </modal>
+    <add-board v-if="isAddBoard"></add-board>
   </div>
 </template>
 
 <script>
-import {board} from '../api'
-import Modal from './Modal.vue'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { board } from '../api'
+import AddBoard from './AddBoard.vue'
 
 export default {
-  components: {
-    Modal
-  },
-  data(){
-    return {  
-      boards: [],
-      onCreateBoard: false,
-      inputBoardTitle: '',
-      isValidInput: false
-    }
-  },
-  watch: {
-    inputBoardTitle(val) {
-      this.isValidInput = !!val.trim().length
-    }
-  },
+  components: { AddBoard },
   computed: {
-    hasBoard() {
-      return this.boards.length > 0
-    }
+    ...mapState({
+        isAddBoard: 'isAddBoard',
+        boardList: 'boardList'
+      }),
   },
   created() {
-    this.fetch()
+    this.FETCH_BOARD_LIST()
   },
   methods: {
-    fetch() {
-      board.fetch().then(({list}) => {
-        this.boards = list
-      })
-    },
+    ...mapMutations([
+      'SET_IS_ADD_BOARD'
+    ]),
+    ...mapActions([
+      'FETCH_BOARD_LIST',
+    ]),
     onClickCreateBoard() {
-      this.onCreateBoard = true
-      setTimeout(_=> this.$refs.inputBoardTitle.focus(), 111)
-    },
-    onSubmitCreateBoard() {
-      if (!this.inputBoardTitle.trim()) return 
-
-      board.create(this.inputBoardTitle).then(({item}) => {
-        console.log(item)
-        this.$router.push(`/board/${item.id}`)
-      }).catch(err => {
-        console.log(err)
-      }).finally(()=> {
-        this.onCreateBoard = false
-      })
-    },
+      this.SET_IS_ADD_BOARD(true)
+    }
   }
 }
 </script>

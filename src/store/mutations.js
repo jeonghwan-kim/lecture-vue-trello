@@ -11,6 +11,12 @@ const mutations = {
     state.accessToken = null 
     delete localStorage.accessToken
     setAuthInHeader(null)
+  },
+  SET_BOARD_LIST (state, {list}) {
+    state.boardList = list
+  },
+  SET_IS_ADD_BOARD (state, toggle) {
+    state.isAddBoard = toggle
   }
 }
 

@@ -73,7 +73,7 @@ export default {
         .catch(err => console.log(err))
     },
     onDragoverCard({moveCardId, targetCardId}) {
-      console.log('onDragoverCard',moveCardId, targetCardId)
+      console.log('onDragoverCard', moveCardId, targetCardId)
     },
     onDragover(evt) {
       const {y} = getPosition(evt.target)

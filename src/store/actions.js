@@ -9,6 +9,10 @@ const actions = {
     return board.fetch()
       .then(data => commit('SET_BOARD_LIST', data))
   },
+  FETCH_BOARD ({commit}, id) {
+    return board.fetch(id)
+      .then(data => commit('SET_BOARD', data))
+  },
   ADD_BOARD (_, title) {
     return board.create(title)
       .then(({item}) => item.id)

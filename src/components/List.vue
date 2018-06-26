@@ -28,12 +28,8 @@ import {card} from '../api'
 import CardItem from './CardItem.vue'
 
 export default {
-  components: {
-    CardItem
-  },
-  props: [
-    'list'
-  ],
+  components: { CardItem },
+  props: ['list'],
   data() {
     return {
       inputCardTitle: '',

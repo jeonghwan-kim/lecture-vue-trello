@@ -22,7 +22,7 @@
 
 <script>
 import Modal from './Modal.vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 
 export default {
   components: { Modal },

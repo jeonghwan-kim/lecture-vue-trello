@@ -3,7 +3,9 @@
     <h2>{{board.title}} <small> | Personal | Private</small></h2>
     <ul>
       <li v-for="(list, i) in board.lists" :key="i">
-        <list :list="list" @doneAddCard="fetchData" @doneUpdateCard="fetchData"></list>
+        <list :list="list"
+          @doneAddCard="fetchData"
+          @doneUpdateCard="fetchData"></list>
       </li>
     </ul>
     <router-view :boardId="board.id"></router-view>
@@ -11,32 +13,31 @@
 </template>
 
 <script>
-import {board} from '../api'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import List from './List.vue'
 
 export default {
-  components: {
-    List
-  },
-  data () {
-    return {
-      board: {},
-    }
-  },
+  components: { List },
   watch: {
-    '$route': {
-      handler: 'fetchData',
-      immediate: true
+    $route() {
+      this.fetchData()
     }
+  },
+  computed: {
+    ...mapState({
+      board: 'board'
+    })
+  },
+  created () {
+    this.fetchData()
   },
   methods: {
-    fetchData() {
-      board.fetch(this.$route.params.id).then(({item}) => {
-        this.board = item
-      }).catch(err => {
-        console.log(err)
-      })
-    },
+    ...mapActions([
+      'FETCH_BOARD'
+    ]),
+    fetchData () {
+      this.FETCH_BOARD(this.$route.params.id)
+    }
   }
 }
 </script>

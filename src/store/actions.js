@@ -17,13 +17,18 @@ const actions = {
     return board.create(title)
       .then(({item}) => item.id)
   },
+  FETCH_CARD ({commit}, id) {
+    return card.fetch(id)
+      .then(({item}) => commit('SET_CARD', item))
+  },
   ADD_CARD ({state, dispatch}, {title, pos, listId}) {
     return card.create({title, pos, listId})
       .then(_=> dispatch('FETCH_BOARD', state.board.id))
   },
-  UPDATE_CARD({ state, dispatch }, {id, pos}) {
-    return card.update(id, { pos })
+  UPDATE_CARD({ state, dispatch }, {id, pos, title, description}) {
+    return card.update(id, { pos, title, description })
       .then(_ => dispatch('FETCH_BOARD', state.board.id))
+      .then(_ => dispatch('FETCH_CARD', state.card.id))
   },
 }
 

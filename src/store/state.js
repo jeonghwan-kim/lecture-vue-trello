@@ -4,6 +4,7 @@ const state = {
   board: {
     lists: []
   },
+  card: {},
   isAddBoard: false
   // isFetching: false,
 }

@@ -20,6 +20,9 @@ const mutations = {
   },
   SET_IS_ADD_BOARD (state, toggle) {
     state.isAddBoard = toggle
+  },
+  SET_CARD (state, card) {
+    state.card = card
   }
 }
 

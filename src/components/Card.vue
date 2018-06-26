@@ -22,30 +22,27 @@
 <script>
 import {card} from '../api'
 import Modal from './Modal.vue'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
-  components: {
-    Modal
-  },
+  components: { Modal },
   props: ['boardId'],
   data() {
     return {
-      card: {},
       toggleTitle: false,
       toggleDesc: false
     }
   },
+  computed: {
+    ...mapState({
+      card: 'card'
+    })
+  },
   created() {
-    this.fetchData()
+    this.FETCH_CARD(this.$route.params.cid)
   },
   methods: {
-    fetchData() {
-      card.fetch(this.$route.params.cid).then(({ item }) => {
-        this.card = item
-      }).catch(err => {
-        console.log(err)
-      })
-    },
+    ...mapActions(['FETCH_CARD', 'UPDATE_CARD']),
     onClickClose() {
       this.$router.push(`/board/${this.boardId}`)
     },
@@ -53,23 +50,13 @@ export default {
       this.toggleTitle = !this.toggleTitle
       const title = this.$refs.inputTitle.value.trim()
       if (!title) return 
-      
-      card.update(this.card.id, {title}).then(data => {
-        this.fetchData()
-      }).catch(err => {
-        console.log(err)
-      })
+      this.UPDATE_CARD({id: this.card.id, title})
     },
     onBlurInputDesc() {
       this.toggleDesc = !this.toggleDesc
       const description = this.$refs.inputDesc.value.trim()
       if (!description) return 
-
-      card.update(this.card.id, {description}).then(_=> {
-        this.fetchData()
-      }).catch(err => {
-        console.log(err)
-      })
+      this.UPDATE_CARD({id: this.card.id, description})
     }
   }
 }

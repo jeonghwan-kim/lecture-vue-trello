@@ -13,7 +13,7 @@ const mutations = {
     setAuthInHeader(null)
   },
   SET_BOARD_LIST (state, {list}) {
-    state.boardList = list
+    state.boardList = list.map(board => board)
   },
   SET_BOARD(state, {item}) {
     state.board = item

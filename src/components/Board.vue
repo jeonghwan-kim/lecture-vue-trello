@@ -3,9 +3,7 @@
     <h2>{{board.title}} <small> | Personal | Private</small></h2>
     <ul>
       <li v-for="(list, i) in board.lists" :key="i">
-        <list :list="list"
-          @doneAddCard="fetchData"
-          @doneUpdateCard="fetchData"></list>
+        <list :list="list"></list>
       </li>
     </ul>
     <router-view :boardId="board.id"></router-view>

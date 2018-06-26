@@ -9,16 +9,12 @@
         @dragoverCard="onDragoverCard"></card-item> 
     </li>
     <li v-if="isAddCard">
-      <div>
-        <form @submit.prevent="onSubmitNewCard">
-          <input type="text" v-model="inputCardTitle" ref="inputCardTitle">
-          <button type="submit" :disabled="invalidInput">Add</button>
-          <a href="" @click.prevent="onCancelAddCard">X</a>
-        </form>
-      </div>
+      <add-card :pos="lastCardPos" :listId="list.id" @close="isAddCard = false"></add-card>      
     </li>
     <li>
-      <a href="" @click.prevent="onClickAddCard">Add a card...</a>
+      <a href="" @click.prevent="isAddCard = true">
+        Add a card...
+      </a>
     </li>
   </ul>
 </template>
@@ -26,25 +22,32 @@
 <script>
 import {card} from '../api'
 import CardItem from './CardItem.vue'
+import AddCard from './AddCard.vue'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
-  components: { CardItem },
+  components: { CardItem, AddCard },
   props: ['list'],
   data() {
     return {
-      inputCardTitle: '',
       isAddCard: false
     }
   },
   computed: {
-    invalidInput() {
-      return !this.inputCardTitle.trim()
-    },
     sortedCards() {
       return [...this.list.cards].sort((a, b) => a.pos - b.pos)
+    },
+    lastCardPos() {
+      const lastCard = this.sortedCards[this.sortedCards.length - 1]
+      let pos = 65535
+      if (lastCard) pos = lastCard.pos + pos
+      return pos
     }
   },
   methods: {
+    ...mapActions([
+      'UPDATE_CARD'
+    ]),
     onDropCard({moveCardId, targetCardId}) {
       console.log('list: onDrop', moveCardId, targetCardId)
 
@@ -64,9 +67,7 @@ export default {
         pos = (targetCard.pos + prevCard.pos) / 2
       }
 
-      card.update(moveCardId, {pos})
-        .then(_=> this.$emit('doneUpdateCard'))
-        .catch(err => console.log(err))
+      this.UPDATE_CARD({id: moveCardId, pos})
     },
     onDragoverCard({moveCardId, targetCardId}) {
       console.log('onDragoverCard', moveCardId, targetCardId)
@@ -75,28 +76,7 @@ export default {
       const {y} = getPosition(evt.target)
       const listY = getPosition(evt.currentTarget).y
       console.log('list: onDragover', y, listY)
-    },
-    onClickAddCard() {
-      this.isAddCard = true
-      setTimeout(_=> this.$refs.inputCardTitle.focus(), 1)
-    },
-    onCancelAddCard(){
-      this.isAddCard = false
-    },
-    onSubmitNewCard() {
-      if (this.invalidInput) return 
-      const lastCard = this.sortedCards[this.sortedCards.length - 1]
-      let pos = 65535
-      if (lastCard) pos = lastCard.pos + pos
-
-      card.create(this.inputCardTitle, this.list.id, pos).then(data => {
-        this.$emit('doneAddCard')
-      }).catch(err => {
-        console.log(err)
-      }).finally(_=>{
-        this.inputCardTitle = ''
-      })
-    },
+    }
   }
 }
 </script>

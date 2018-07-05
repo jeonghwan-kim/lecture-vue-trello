@@ -25,10 +25,9 @@ const actions = {
     return card.create({title, pos, listId})
       .then(_=> dispatch('FETCH_BOARD', state.board.id))
   },
-  UPDATE_CARD({ state, dispatch }, {id, pos, title, description}) {
-    return card.update(id, { pos, title, description })
+  UPDATE_CARD({ state, dispatch }, {id, pos, title, description, listId}) {
+    return card.update(id, { pos, title, description, listId})
       .then(_ => dispatch('FETCH_BOARD', state.board.id))
-      .then(_ => dispatch('FETCH_CARD', state.card.id))
   },
 }
 

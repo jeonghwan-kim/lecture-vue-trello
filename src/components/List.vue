@@ -1,20 +1,22 @@
 <template>
-  <ul class="list" :data-list-id="list.id">
-    <li>
-      <h3>{{list.title}}</h3>
-    </li>
-    <li v-for="card in list.cards" :key="`${list.id}-${card.pos}`" >
-      <card-item :card="card" :boardId="list.boardId"></card-item> 
-    </li>
-    <li v-if="isAddCard">
+  <div class="list" :data-list-id="list.id" :data-list-pos="list.pos">
+    <div>
+      <h3 class="list-title">{{list.title}} {{list.pos}}</h3>
+    </div>
+    <div class="card-list" :data-list-id="list.id">
+      <div  v-show="!list.cards.length" class="empty-card-item"></div>
+      <card-item v-for="card in list.cards" :key="`${list.id}-${card.pos}`" 
+        :card="card" :boardId="list.boardId"></card-item> 
+    </div>
+    <div v-if="isAddCard">
       <add-card :pos="lastCardPos" :listId="list.id" @close="isAddCard = false"></add-card>      
-    </li>
-    <li>
+    </div>
+    <div>
       <a href="" @click.prevent="isAddCard = true">
         Add a card...
       </a>
-    </li>
-  </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -45,8 +47,18 @@ export default {
 .list {
   background-color: green;
   margin-right: 10px;
+  display: inline-block;
+  vertical-align: top;
 }
-ul {
+.card-list {
+  width: 100%;
+}
+.empty-card-item   {
+  height: 10px;
+  width: 100%;
+  background-color: rgba(0,0,0, 0);
+}
+.card-list {
   display: inline-block;
   vertical-align: top;
 }

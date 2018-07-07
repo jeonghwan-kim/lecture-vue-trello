@@ -14,3 +14,11 @@ export default {
   ],
 }
 </script>
+
+<style scoped>
+.card-item {
+  background-color: yellow;
+  margin: 5px;
+  padding: 10px;
+}
+</style>

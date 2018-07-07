@@ -50,6 +50,12 @@ export const board = {
   }
 }
 
+export const list = {
+  update(id, data) {
+    return request.put(`/lists/${id}`, data).then(({ data }) => data)
+  }
+}
+
 export const card = {
   fetch(id) {
     return request.get(`/cards/${id}`).then(({ data }) => data)

@@ -1,11 +1,9 @@
 <template>
   <div>
     <h2>{{board.title}} <small> | Personal | Private</small></h2>
-    <ul>
-      <li v-for="(list, i) in board.lists" :key="i">
-        <list :list="list"></list>
-      </li>
-    </ul>
+    <div class="list-wrapper">
+      <list v-for="list in board.lists" :key="list.pos" :list="list"></list>
+    </div>
     <router-view :boardId="board.id"></router-view>
   </div>
 </template>
@@ -20,6 +18,7 @@ export default {
   components: { List },
   data() {
     return {
+      drakeList: null,
       drake: null
     }
   },
@@ -37,12 +36,51 @@ export default {
     this.fetchData()
   },
   updated () {
+    if (this.drakeList) this.drakeList.destroy()
     if (this.drake) this.drake.destroy()
 
-    this.drake = dragula([...this.$el.querySelectorAll('.list')])
-      .on('drop', (el, wrapper, target, silblings) => {
+    this.drakeList = dragula([...this.$el.querySelectorAll('.list-wrapper')], {
+      invalid:  (el, handle) => {
+        return !/^list/.test(handle.className)
+      },
+      drop: (el, wrapper, target, siblings) => {
+        const targetList = {
+          id: el.dataset.listId * 1,
+          pos: 65535
+        }
+        let prevList = null
+        let nextList = null 
+
+        Array.from(wrapper.querySelectorAll('.list'))
+          .forEach((el, idx, arr) => {
+            const listId = null
+            const listFound = targetList.id === (el.dataset.listId * 1)
+
+            if (!listFound) return 
+
+            prevList = idx > 0 ? {
+              id: arr[idx - 1].dataset.listId * 1,
+              pos: arr[idx - 1].dataset.listPos * 1,
+            } : null
+
+            nextList = idx < arr.length - 1 ? {
+              id: arr[idx + 1].dataset.listId * 1,
+              pos: arr[idx + 1].dataset.listPos * 1,
+            } : null
+          })
+
+        if (!prevList && nextList) targetList.pos = nextList.pos / 2
+        else if (!nextList && prevList) targetList.pos = prevList.pos * 2
+        else if (nextList && prevList) targetList.pos = (prevList.pos + nextList.pos) / 2
+
+        this.UPDATE_LIST(targetList)
+      }
+    })
+
+    this.drake = dragula([...this.$el.querySelectorAll('.card-list')], {
+      on: (el, wrapper, target, silblings) => {
         const targetCard = {
-          id: el.children[0].dataset.cardId * 1, 
+          id: el.dataset.cardId * 1, 
           listId: wrapper.dataset.listId * 1,
           pos: 65535,
         }
@@ -70,12 +108,14 @@ export default {
         else if (nextCard && prevCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
 
         this.UPDATE_CARD(targetCard)
-      })
+      }
+    })
   },
   methods: {
     ...mapActions([
       'FETCH_BOARD',
-      'UPDATE_CARD'
+      'UPDATE_CARD',
+      'UPDATE_LIST'
     ]),
     fetchData () {
       this.FETCH_BOARD(this.$route.params.id)
@@ -87,8 +127,5 @@ export default {
 <style scoped>
 small {
   font-size: 60%;
-}
-li {
-  display: inline-block;
 }
 </style>

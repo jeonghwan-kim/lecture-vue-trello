@@ -17,8 +17,8 @@ const actions = {
     return board.create(title)
       .then(({item}) => item.id)
   },
-  UPDATE_LIST ({ state, dispatch }, {id, pos}) {
-    return list.update(id, { pos })
+  UPDATE_LIST ({ state, dispatch }, {id, pos, title}) {
+    return list.update(id, { pos, title })
       .then(_ => dispatch('FETCH_BOARD', state.board.id))
   },  
   FETCH_CARD ({commit}, id) {

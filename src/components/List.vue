@@ -1,8 +1,9 @@
 <template>
   <div class="list" :data-list-id="list.id" :data-list-pos="list.pos">
-    <div>
-      <h3 class="list-title">{{list.title}} {{list.pos}}</h3>
-    </div>
+    <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
+      @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
+    <h3 v-else class="list-title" @click="onClickTitle">{{list.title}} {{list.pos}}</h3>
+    
     <div class="card-list" :data-list-id="list.id">
       <div  v-show="!list.cards.length" class="empty-card-item"></div>
       <card-item v-for="card in list.cards" :key="`${list.id}-${card.pos}`" 
@@ -23,14 +24,20 @@
 import {card} from '../api'
 import CardItem from './CardItem.vue'
 import AddCard from './AddCard.vue'
+import { mapActions } from 'vuex'
 
 export default {
   components: { CardItem, AddCard },
   props: ['list'],
   data() {
     return {
-      isAddCard: false
+      isAddCard: false,
+      isEditTitle: false,
+      inputTitle: ''
     }
+  },
+  created() {
+    this.inputTitle = this.list.title
   },
   computed: {
     lastCardPos() {
@@ -40,6 +47,26 @@ export default {
       return pos
     }
   },
+  methods: {
+    ...mapActions([
+      'UPDATE_LIST'
+    ]),
+    onClickTitle() {
+      this.isEditTitle=true
+      this.$nextTick(_=> this.$refs.inputTitle.focus())
+    },
+    onTitleSubmit() {
+      this.inputTitle = this.inputTitle.trim()
+      if (!this.inputTitle) return 
+      const id = this.list.id
+      const title = this.inputTitle
+
+      if (title === this.list.title) return this.isEditTitle = false
+
+      this.UPDATE_LIST({ id, title })
+        .then(_=> (this.isEditTitle = false))
+    },
+  }
 }
 </script>
 

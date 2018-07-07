@@ -1,5 +1,6 @@
 <template>
   <div class="list" :data-list-id="list.id" :data-list-pos="list.pos">
+    <button @click="onDeleteList">Delete</button>
     <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
       @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
     <h3 v-else class="list-title" @click="onClickTitle">{{list.title}} {{list.pos}}</h3>
@@ -49,7 +50,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'UPDATE_LIST'
+      'UPDATE_LIST',
+      'DELETE_LIST'
     ]),
     onClickTitle() {
       this.isEditTitle=true
@@ -66,6 +68,10 @@ export default {
       this.UPDATE_LIST({ id, title })
         .then(_=> (this.isEditTitle = false))
     },
+    onDeleteList() {
+      if (!confirm(`Delete ${this.list.title} list?`)) return 
+      this.DELETE_LIST({ id: this.list.id }) 
+    }
   }
 }
 </script>
@@ -76,6 +82,7 @@ export default {
   margin-right: 10px;
   display: inline-block;
   vertical-align: top;
+  width: 100%;
 }
 .card-list {
   width: 100%;
@@ -86,7 +93,7 @@ export default {
   background-color: rgba(0,0,0, 0);
 }
 .card-list {
-  display: inline-block;
-  vertical-align: top;
+  /* display: inline-block; */
+  /* vertical-align: top; */
 }
 </style>

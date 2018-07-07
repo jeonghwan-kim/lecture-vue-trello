@@ -47,12 +47,24 @@ export const board = {
   },
   create (title) {
     return request.post('/boards', { title }).then(({ data }) => data)
+  },
+  update(id, data) {
+    return request.put(`/boards/${id}`, data).then(({ data }) => data)
+  },
+  destroy(id) {
+    return request.delete(`/boards/${id}`)
   }
 }
 
 export const list = {
+  create(data) {
+    return request.post(`/lists`, data)
+  },
   update(id, data) {
     return request.put(`/lists/${id}`, data).then(({ data }) => data)
+  },
+  destroy(id) {
+    return request.delete(`/lists/${id}`).then(({ data }) => data)
   }
 }
 

@@ -31,6 +31,9 @@ export default {
   created() {
     this.FETCH_BOARD_LIST()
   },
+  mounted() {
+    document.querySelector('body').style.backgroundColor = 'rgb(255,255,255)'
+  },
   methods: {
     ...mapMutations([
       'SET_IS_ADD_BOARD'

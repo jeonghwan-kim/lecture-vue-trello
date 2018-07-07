@@ -17,10 +17,26 @@ const actions = {
     return board.create(title)
       .then(({item}) => item.id)
   },
+  UPDATE_BOARD({ state, dispatch }, { id, title, bgColor }) {
+    return board.update(id, { title, bgColor })
+      .then(_ => dispatch('FETCH_BOARD', state.board.id))
+  },  
+  DELETE_BOARD(_, id) {
+    return board.destroy(id)
+  },
+
+  ADD_LIST ({state, dispatch}, {title, boardId, pos}) {
+    return list.create({title, pos, boardId})
+      .then(_ => dispatch('FETCH_BOARD', state.board.id))
+  },
   UPDATE_LIST ({ state, dispatch }, {id, pos, title}) {
     return list.update(id, { pos, title })
       .then(_ => dispatch('FETCH_BOARD', state.board.id))
   },  
+  DELETE_LIST ({ state, dispatch }, { id, pos, title }) {
+    return list.destroy(id, { pos, title })
+      .then(_ => dispatch('FETCH_BOARD', state.board.id))
+  },
   FETCH_CARD ({commit}, id) {
     return card.fetch(id)
       .then(({item}) => commit('SET_CARD', item))

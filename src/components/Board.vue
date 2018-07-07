@@ -1,9 +1,23 @@
 <template>
-  <div>
-    <h2>{{board.title}} <small> | Personal | Private</small></h2>
-    <div class="list-wrapper">
-      <list v-for="list in board.lists" :key="list.pos" :list="list"></list>
+  <div class="board">
+    <h2>
+      <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
+      @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
+      <span v-else @click="onClickTitle">{{board.title}} </span>
+      <small> | Personal | Private</small>
+      <a href="" @click.prevent="onClickShowMenu" >... Show Menu</a>
+    </h2>
+    <div class="list-section-wrapper">
+      <div class="list-section">
+        <div class="list-wrapper" v-for="list in board.lists" :key="list.pos">
+          <list :list="list"></list>
+        </div>
+        <div class="list-wrapper">
+          <add-list />
+        </div>
+      </div>
     </div>
+    <board-settings v-if="isShowBoardMenu"/>
     <router-view :boardId="board.id"></router-view>
   </div>
 </template>
@@ -11,15 +25,19 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import List from './List.vue'
+import AddList from './AddList.vue'
+import BoardSettings from './BoardSettings.vue'
 import dragula from 'dragula'
 import 'dragula/dist/dragula.css'
 
 export default {
-  components: { List },
+  components: { List, AddList, BoardSettings },
   data() {
     return {
       drakeList: null,
-      drake: null
+      drake: null,
+      isEditTitle: false,
+      inputTitle: ''
     }
   },
   watch: {
@@ -29,96 +47,122 @@ export default {
   },
   computed: {
     ...mapState({
-      board: 'board'
+      board: 'board',
+      isShowBoardMenu: 'isShowBoardMenu'
     })
   },
   created () {
-    this.fetchData()
+    this.fetchData().then(_=> {
+      this.inputTitle = this.board.title
+      document.querySelector('body').style.backgroundColor = this.board.bgColor
+    })
   },
   updated () {
     if (this.drakeList) this.drakeList.destroy()
     if (this.drake) this.drake.destroy()
 
-    this.drakeList = dragula([...this.$el.querySelectorAll('.list-wrapper')], {
+    this.drakeList = dragula([...this.$el.querySelectorAll('.list-section')], {
       invalid:  (el, handle) => {
+        console.log(handle.className)
         return !/^list/.test(handle.className)
-      },
-      drop: (el, wrapper, target, siblings) => {
-        const targetList = {
-          id: el.dataset.listId * 1,
-          pos: 65535
-        }
-        let prevList = null
-        let nextList = null 
-
-        Array.from(wrapper.querySelectorAll('.list'))
-          .forEach((el, idx, arr) => {
-            const listId = null
-            const listFound = targetList.id === (el.dataset.listId * 1)
-
-            if (!listFound) return 
-
-            prevList = idx > 0 ? {
-              id: arr[idx - 1].dataset.listId * 1,
-              pos: arr[idx - 1].dataset.listPos * 1,
-            } : null
-
-            nextList = idx < arr.length - 1 ? {
-              id: arr[idx + 1].dataset.listId * 1,
-              pos: arr[idx + 1].dataset.listPos * 1,
-            } : null
-          })
-
-        if (!prevList && nextList) targetList.pos = nextList.pos / 2
-        else if (!nextList && prevList) targetList.pos = prevList.pos * 2
-        else if (nextList && prevList) targetList.pos = (prevList.pos + nextList.pos) / 2
-
-        this.UPDATE_LIST(targetList)
       }
     })
-
-    this.drake = dragula([...this.$el.querySelectorAll('.card-list')], {
-      on: (el, wrapper, target, silblings) => {
-        const targetCard = {
-          id: el.dataset.cardId * 1, 
-          listId: wrapper.dataset.listId * 1,
-          pos: 65535,
-        }
-        let prevCard = null
-        let nextCard = null
-
-        Array.from(wrapper.querySelectorAll('.card-item'))
-          .forEach((el, idx, arr) => {
-            const cardId = el.dataset.cardId * 1
-
-            if (targetCard.id === cardId) {
-              prevCard = idx > 0 ? {
-                id: arr[idx - 1].dataset.cardId * 1,
-                pos: arr[idx - 1].dataset.cardPos * 1,
-              } : null
-              nextCard = idx < arr.length - 1 ? {
-                id: arr[idx + 1].dataset.cardId * 1,
-                pos: arr[idx + 1].dataset.cardPos * 1,
-              } : null
-            }
-          })
-
-        if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
-        else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
-        else if (nextCard && prevCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
-
-        this.UPDATE_CARD(targetCard)
+    .on('drop', (el, wrapper, target, siblings) => {
+      const targetList = {
+        id: el.children[0].dataset.listId * 1,
+        pos: 65535
       }
+      let prevList = null
+      let nextList = null 
+
+      Array.from(wrapper.querySelectorAll('.list'))
+        .forEach((el, idx, arr) => {
+          const listId = null
+          const listFound = targetList.id === (el.dataset.listId * 1)
+
+          if (!listFound) return 
+
+          prevList = idx > 0 ? {
+            id: arr[idx - 1].dataset.listId * 1,
+            pos: arr[idx - 1].dataset.listPos * 1,
+          } : null
+
+          nextList = idx < arr.length - 1 ? {
+            id: arr[idx + 1].dataset.listId * 1,
+            pos: arr[idx + 1].dataset.listPos * 1,
+          } : null
+        })
+
+      if (!prevList && nextList) targetList.pos = nextList.pos / 2
+      else if (!nextList && prevList) targetList.pos = prevList.pos * 2
+      else if (nextList && prevList) targetList.pos = (prevList.pos + nextList.pos) / 2
+
+      this.UPDATE_LIST(targetList)
+    })
+
+    this.drake = dragula([...this.$el.querySelectorAll('.card-list')])
+    .on('drop', (el, wrapper, target, silblings) => {
+      const targetCard = {
+        id: el.dataset.cardId * 1, 
+        listId: wrapper.dataset.listId * 1,
+        pos: 65535,
+      }
+      let prevCard = null
+      let nextCard = null
+
+      Array.from(wrapper.querySelectorAll('.card-item'))
+        .forEach((el, idx, arr) => {
+          const cardId = el.dataset.cardId * 1
+
+          if (targetCard.id === cardId) {
+            prevCard = idx > 0 ? {
+              id: arr[idx - 1].dataset.cardId * 1,
+              pos: arr[idx - 1].dataset.cardPos * 1,
+            } : null
+            nextCard = idx < arr.length - 1 ? {
+              id: arr[idx + 1].dataset.cardId * 1,
+              pos: arr[idx + 1].dataset.cardPos * 1,
+            } : null
+          }
+        })
+
+      if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
+      else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
+      else if (nextCard && prevCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
+
+      this.UPDATE_CARD(targetCard)
     })
   },
   methods: {
     ...mapActions([
       'FETCH_BOARD',
+      'UPDATE_BOARD',
       'UPDATE_CARD',
       'UPDATE_LIST'
     ]),
+    ...mapMutations([
+      'SET_IS_SHOW_BOARD_MENU'
+    ]),
     fetchData () {
-      this.FETCH_BOARD(this.$route.params.id)
+      return this.FETCH_BOARD(this.$route.params.id)
+    },
+    onClickTitle() {
+      this.isEditTitle=true
+      this.$nextTick(_=> this.$refs.inputTitle.focus())
+    },
+    onTitleSubmit() {
+      this.inputTitle = this.inputTitle.trim()
+      if (!this.inputTitle) return 
+      const id = this.board.id
+      const title = this.inputTitle
+
+      if (title === this.board.title) return this.isEditTitle = false
+
+      this.UPDATE_BOARD({ id, title })
+        .then(_=> (this.isEditTitle = false))
+    },
+    onClickShowMenu() {
+      this.SET_IS_SHOW_BOARD_MENU(true)
     }
   }
 }
@@ -127,5 +171,31 @@ export default {
 <style scoped>
 small {
   font-size: 60%;
+}
+.board {
+  position: relative;
+}
+.list-section-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.list-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.list-wrapper {
+  display: inline-block;
+  height: 100%;
+  width: 272px;
+  vertical-align: top;
+  margin-right: 5px;
 }
 </style>

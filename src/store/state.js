@@ -5,8 +5,8 @@ const state = {
     lists: []
   },
   card: {},
-  isAddBoard: false
-  // isFetching: false,
+  isAddBoard: false,
+  isShowBoardMenu: false
 }
 
 export default state

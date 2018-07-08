@@ -77,5 +77,8 @@ export const card = {
   },
   update(id, data) {
     return request.put(`/cards/${id}`, data).then(({ data }) => data)
+  },
+  destroy(id) {
+    return request.delete(`/cards/${id}`)
   }
 }

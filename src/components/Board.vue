@@ -54,6 +54,7 @@ export default {
     this.fetchData().then(_=> {
       this.inputTitle = this.board.title
       document.querySelector('body').style.backgroundColor = this.board.bgColor
+      document.querySelector('.header').style.backgroundColor = 'rgba(0,0,0,.15)'
     })
   },
   updated () {

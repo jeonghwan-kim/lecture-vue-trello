@@ -26,6 +26,7 @@ html, body {
 }
 .container {
   height: 100%;
+  position: relative;
 }
 .btn {
   border-radius: 3px;

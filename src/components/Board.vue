@@ -1,12 +1,11 @@
 <template>
   <div class="board">
-    <h2>
+    <div class="board-header">
       <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
       @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
-      <span v-else @click="onClickTitle">{{board.title}} </span>
-      <small> | Personal | Private</small>
-      <a href="" @click.prevent="onClickShowMenu" >... Show Menu</a>
-    </h2>
+      <span v-else @click="onClickTitle" class="board-header-btn board-title">{{board.title}}</span>
+      <a class="board-header-btn show-menu" href="" @click.prevent="onClickShowMenu" >... Show Menu</a>
+    </div>
     <div class="list-section-wrapper">
       <div class="list-section">
         <div class="list-wrapper" v-for="list in board.lists" :key="list.pos">
@@ -168,10 +167,36 @@ export default {
 }
 </script>
 
-<style scoped>
-small {
-  font-size: 60%;
+<style>
+.board-header {
+  padding: 8px 4px 8px 8px;
+  margin: 0;
+  height: 32px;
+  line-height: 32px;
+} 
+.board-header-btn {
+  border-radius: 4px;
+  padding: 2px 10px;
+  height: 30px;
+  margin-bottom: 15px;
+  display: inline-block;
+  color: #fff;
 }
+.board-header-btn:hover,
+.board-header-btn:focus {
+  background-color: rgba(0,0,0,.15);
+  cursor: pointer;
+}
+.board-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+.show-menu {
+  font-size: 14px;
+  position: absolute;
+  right: 15px;
+}
+
 .board {
   position: relative;
 }

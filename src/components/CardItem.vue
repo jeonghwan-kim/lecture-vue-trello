@@ -32,13 +32,17 @@ export default {
   background-color: #fff;
   border-radius: 3px;
   margin: 8px;
-  padding: 6px 8px 2px;
+  padding: 6px 20px 2px 8px;
   box-shadow: 0 1px 0 #ccc;
   position: relative;
 }
 .card-item a {
   text-decoration: none;
   color: #444;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  display: block;
 }
 .card-item:hover,
 .card-item:focus {

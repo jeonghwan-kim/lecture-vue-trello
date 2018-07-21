@@ -1,6 +1,6 @@
 <template>
   <div class="list add-list">
-    <input v-if="isAddList" type="text" ref="inputTitle" v-model="inputTitle"
+    <input class="form-control" v-if="isAddList" type="text" ref="inputTitle" v-model="inputTitle"
     @keyup.enter="onSubmitTitle" @blur="resotre">
     <a v-else @click="onClickAddList">&plus; Add another list</a>
   </div>

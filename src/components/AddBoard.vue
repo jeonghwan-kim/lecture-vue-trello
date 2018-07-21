@@ -4,17 +4,17 @@
       <h2>
         Create new board
         <a href="" class="modal-default-button" 
-          @click.prevent="SET_IS_ADD_BOARD(false)">X</a>
+          @click.prevent="SET_IS_ADD_BOARD(false)">&times;</a>
       </h2>
     </div>
     <div slot="body">
       <form id="add-board-form" 
         @submit.prevent="onSubmitCreateBoard">
-        <input type="text" v-model="inputBoardTitle" ref="inputBoardTitle">
+        <input class="form-control" type="text" v-model="inputBoardTitle" ref="inputBoardTitle">
       </form>
     </div>
     <div slot="footer">
-      <button type="submit" form="add-board-form" :disabled="!isValidInput">
+      <button class="btn" :class="{'btn-success': isValidInput}" type="submit" form="add-board-form" :disabled="!isValidInput">
         Create Board</button>
     </div>
   </modal>
@@ -58,3 +58,4 @@ export default {
   }
 }
 </script>
+

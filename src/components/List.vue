@@ -1,7 +1,7 @@
 <template>
   <div class="list" :data-list-id="list.id" :data-list-pos="list.pos">
     <div class="list-header">
-      <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
+      <input class="form-control input-title" v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
         @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
       <div v-else class="list-header-title" @click="onClickTitle">{{list.title}} {{list.pos}}</div>
       <a class="delete-list-btn" href="" @click.prevent="onDeleteList">&times;</a>
@@ -15,7 +15,7 @@
     <div v-if="isAddCard">
       <add-card :pos="lastCardPos" :listId="list.id" @close="isAddCard = false"></add-card>      
     </div>
-    <a class="add-card-btn" href="" @click.prevent="isAddCard = true">
+    <a v-else class="add-card-btn" href="" @click.prevent="isAddCard = true">
       &plus; Add a card...
     </a>
   </div>
@@ -95,6 +95,9 @@ export default {
   font-weight: 700;
   padding-left: 8px;
   line-height: 30px;
+}
+.input-title {
+  width: 90%;
 }
 .delete-list-btn {
   position: absolute;

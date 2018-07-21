@@ -1,7 +1,7 @@
 <template>
   <div class="board">
     <div class="board-header">
-      <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
+      <input class="form-control" v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
       @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
       <span v-else @click="onClickTitle" class="board-header-btn board-title">{{board.title}}</span>
       <a class="board-header-btn show-menu" href="" @click.prevent="onClickShowMenu" >... Show Menu</a>
@@ -174,6 +174,9 @@ export default {
   height: 32px;
   line-height: 32px;
 } 
+.board-header input[type=text] {
+  width: 200px;
+}
 .board-header-btn {
   border-radius: 4px;
   padding: 2px 10px;

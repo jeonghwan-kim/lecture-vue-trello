@@ -3,7 +3,7 @@
     <div class="list-header">
       <input class="form-control input-title" v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
         @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
-      <div v-else class="list-header-title" @click="onClickTitle">{{list.title}} {{list.pos}}</div>
+      <div v-else class="list-header-title" @click="onClickTitle">{{list.title}}</div>
       <a class="delete-list-btn" href="" @click.prevent="onDeleteList">&times;</a>
     </div>
     

@@ -1,7 +1,7 @@
 <template>
   <div class="card-item" :data-card-id="card.id" :data-card-pos="card.pos">
     <router-link :to="`/board/${boardId}/card/${card.id}`">
-      <div>{{card.title}} {{card.id}} {{card.pos}}</div>
+      <div>{{card.title}}</div>
       <div class="card-item-meta" v-if="card.description">&equiv;</div>
     </router-link>
     <a class="delete-card-btn" href="" @click.prevent="onClickDelete">&times;</a>

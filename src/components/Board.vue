@@ -225,4 +225,21 @@ export default {
   vertical-align: top;
   margin-right: 5px;
 }
+
+.card-item.gu-transit {
+  background-color: #555 !important;
+}
+.card-item.gu-mirror {
+  opacity: 1 !important;
+  background-color: #fff !important;
+  transform: rotate(3deg) !important;
+}
+.list-wrapper.gu-transit {
+  /* background-color: #555 !important; */
+}
+.list-wrapper.gu-mirror {
+  /* opacity: 1 !important; */
+  /* background-color: #fff !important; */
+  /* transform: rotate(3deg) !important; */
+}
 </style>

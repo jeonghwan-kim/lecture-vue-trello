@@ -56,7 +56,8 @@ html, body {
   transition: background-color .3s;
 }
 input[type=text].form-control,
-input[type=password].form-control {
+input[type=password].form-control,
+textarea.form-control {
   font-size: 14px;
 }
 .form-control:focus {

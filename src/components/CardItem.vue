@@ -1,7 +1,8 @@
 <template>
   <div class="card-item" :data-card-id="card.id" :data-card-pos="card.pos">
     <router-link :to="`/board/${boardId}/card/${card.id}`">
-      {{card.title}} {{card.id}} {{card.pos}}
+      <div>{{card.title}} {{card.id}} {{card.pos}}</div>
+      <div class="card-item-meta" v-if="card.description">&equiv;</div>
     </router-link>
     <a class="delete-card-btn" href="" @click.prevent="onClickDelete">&times;</a>
   </div>
@@ -48,6 +49,11 @@ export default {
 .card-item:focus {
   background-color: rgba(0,0,0, .1);
   cursor: pointer;
+}
+.card-item-meta {
+  font-size: 26px;
+  padding: 5px 0 0 3px;
+  color: #8c8c8c;  
 }
 .delete-card-btn {
   position: absolute;

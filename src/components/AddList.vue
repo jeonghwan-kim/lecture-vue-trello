@@ -2,7 +2,7 @@
   <div class="list add-list">
     <input v-if="isAddList" type="text" ref="inputTitle" v-model="inputTitle"
     @keyup.enter="onSubmitTitle" @blur="resotre">
-    <a v-else @click="onClickAddList">+Add another list</a>
+    <a v-else @click="onClickAddList">&plus; Add another list</a>
   </div>
 </template>
 
@@ -49,6 +49,14 @@ export default {
 
 <style scoped>
 .add-list {
-
+  background-color: rgba(0,0,0, .1);
+  padding: 12px;
+  color: #ddd;
+  transition: all .3s;
 }  
+.add-list:hover,
+.add-list:focus {
+  background-color: rgba(0,0,0, .3);
+  cursor: pointer;
+}
 </style>

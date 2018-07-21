@@ -197,9 +197,6 @@ export default {
   right: 15px;
 }
 
-.board {
-  position: relative;
-}
 .list-section-wrapper {
   position: relative;
   display: block;
@@ -215,6 +212,7 @@ export default {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
+  padding: 0 10px;
 }
 .list-wrapper {
   display: inline-block;

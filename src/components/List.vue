@@ -1,9 +1,11 @@
 <template>
   <div class="list" :data-list-id="list.id" :data-list-pos="list.pos">
-    <button @click="onDeleteList">Delete</button>
-    <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
-      @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
-    <h3 v-else class="list-title" @click="onClickTitle">{{list.title}} {{list.pos}}</h3>
+    <div class="list-header">
+      <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
+        @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
+      <div v-else class="list-header-title" @click="onClickTitle">{{list.title}} {{list.pos}}</div>
+      <a class="delete-list-btn" href="" @click.prevent="onDeleteList">&times;</a>
+    </div>
     
     <div class="card-list" :data-list-id="list.id">
       <div  v-show="!list.cards.length" class="empty-card-item"></div>
@@ -13,11 +15,9 @@
     <div v-if="isAddCard">
       <add-card :pos="lastCardPos" :listId="list.id" @close="isAddCard = false"></add-card>      
     </div>
-    <div>
-      <a href="" @click.prevent="isAddCard = true">
-        Add a card...
-      </a>
-    </div>
+    <a class="add-card-btn" href="" @click.prevent="isAddCard = true">
+      &plus; Add a card...
+    </a>
   </div>
 </template>
 
@@ -78,11 +78,31 @@ export default {
 
 <style>
 .list {
-  background-color: green;
+  background-color: #e2e4e6;
+  border-radius: 3px;
   margin-right: 10px;
   display: inline-block;
   vertical-align: top;
   width: 100%;
+}
+.list-header {
+  height: 30px;
+  padding: 10px 8px 8px;
+  position: relative;
+}
+.list-header-title {
+  font-size: 16px;
+  font-weight: 700;
+  padding-left: 8px;
+  line-height: 30px;
+}
+.delete-list-btn {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 24px;
 }
 .card-list {
   width: 100%;
@@ -92,8 +112,14 @@ export default {
   width: 100%;
   background-color: rgba(0,0,0, 0);
 }
-.card-list {
-  /* display: inline-block; */
-  /* vertical-align: top; */
+.add-card-btn {
+  display: block;
+  padding: 8px 10px;
+  color: #8c8c8c;
+  text-decoration: none;
+}
+.add-card-btn:focus,
+.add-card-btn:hover {
+  background-color: rgba(0,0,0, .1);
 }
 </style>

@@ -81,11 +81,14 @@ export default {
   background-color: #e2e4e6;
   border-radius: 3px;
   margin-right: 10px;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   vertical-align: top;
   width: 100%;
+  max-height: 100%;
 }
 .list-header {
+  flex: 0 0 auto;
   height: 30px;
   padding: 10px 8px 8px;
   position: relative;
@@ -108,7 +111,8 @@ export default {
   font-size: 24px;
 }
 .card-list {
-  width: 100%;
+  flex: 1 1 auto;
+  overflow-y: scroll;
 }
 .empty-card-item   {
   height: 10px;
@@ -116,6 +120,7 @@ export default {
   background-color: rgba(0,0,0, 0);
 }
 .add-card-btn {
+  flex: 0 0 auto;
   display: block;
   padding: 8px 10px;
   color: #8c8c8c;

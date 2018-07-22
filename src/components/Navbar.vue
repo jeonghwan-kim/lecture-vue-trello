@@ -28,6 +28,7 @@ export default {
 
 <style>
 .header {
+  flex: none;
   background-color: rgba(0,0,0,.15);
   height: 32px;
   padding: 4px;

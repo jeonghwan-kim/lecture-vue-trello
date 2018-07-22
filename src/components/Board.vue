@@ -1,23 +1,27 @@
 <template>
-  <div class="board">
-    <div class="board-header">
-      <input class="form-control" v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
-      @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
-      <span v-else @click="onClickTitle" class="board-header-btn board-title">{{board.title}}</span>
-      <a class="board-header-btn show-menu" href="" @click.prevent="onClickShowMenu" >... Show Menu</a>
-    </div>
-    <div class="list-section-wrapper">
-      <div class="list-section">
-        <div class="list-wrapper" v-for="list in board.lists" :key="list.pos">
-          <list :list="list"></list>
+  <div>
+    <div class="board-wrapper">
+      <div class="board">
+        <div class="board-header">
+          <input class="form-control" v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle"
+          @keyup.enter="onTitleSubmit" @blur="onTitleSubmit">
+          <span v-else @click="onClickTitle" class="board-header-btn board-title">{{board.title}}</span>
+          <a class="board-header-btn show-menu" href="" @click.prevent="onClickShowMenu" >... Show Menu</a>
         </div>
-        <div class="list-wrapper">
-          <add-list />
+        <div class="list-section-wrapper">
+          <div class="list-section">
+            <div class="list-wrapper" v-for="list in board.lists" :key="list.pos">
+              <list :list="list"></list>
+            </div>
+            <div class="list-wrapper">
+              <add-list />
+            </div>
+          </div>
         </div>
+        <board-settings v-if="isShowBoardMenu"/>
+        <router-view :boardId="board.id"></router-view>
       </div>
     </div>
-    <board-settings v-if="isShowBoardMenu"/>
-    <router-view :boardId="board.id"></router-view>
   </div>
 </template>
 
@@ -169,7 +173,20 @@ export default {
 </script>
 
 <style>
+.board-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.board {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .board-header {
+  flex: none;
   padding: 8px 4px 8px 8px;
   margin: 0;
   height: 32px;
@@ -202,10 +219,8 @@ export default {
 }
 
 .list-section-wrapper {
+  flex-grow: 1;
   position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
 }
 .list-section {
   position: absolute;
@@ -234,12 +249,14 @@ export default {
   background-color: #fff !important;
   transform: rotate(3deg) !important;
 }
-.list-wrapper.gu-transit {
-  /* background-color: #555 !important; */
+/* .list-wrapper.gu-transit .list {
+  background-color: #555 !important;
+  color: #555 !important;
+  opacity: 1 !important;
 }
-.list-wrapper.gu-mirror {
-  /* opacity: 1 !important; */
-  /* background-color: #fff !important; */
-  /* transform: rotate(3deg) !important; */
-}
+.list-wrapper.gu-mirror .list {
+  opacity: 1 !important;
+  background-color: #fff !important;
+  transform: rotate(3deg) !important;
+} */
 </style>

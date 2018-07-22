@@ -17,15 +17,16 @@ export default {
 </script>
 
 <style>
-html, body {
+html, body, #app {
   height: 100%;
   margin: 0px;
 }
 #app {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .container {
-  height: 100%;
+  flex-grow: 1;
   position: relative;
 }
 .btn {

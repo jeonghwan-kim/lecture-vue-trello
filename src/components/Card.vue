@@ -63,9 +63,6 @@ export default {
 </script>
 
 <style>
-.modal-card {
-  background-color: #edeff0;
-}
 .modal-card .modal-container {
   min-width: 300px;
   max-width: 800px;

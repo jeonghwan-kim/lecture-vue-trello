@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
+
 export default {
   data() {
     return {
@@ -33,12 +35,14 @@ export default {
   },
   created() {
     this.returnPath = this.$route.query.returnPath || '/'
+    this.SET_THEME()
   },
   mounted() {
-    document.querySelector('body').style.backgroundColor = '#fff'
-    document.querySelector('.header').style.backgroundColor = '#026aa7'
   },
   methods: {
+    ...mapMutations([
+      'SET_THEME'
+    ]),
     onSubmit() {
       const {email, password} = this
       this.$store.dispatch('LOGIN', {email, password})

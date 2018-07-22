@@ -57,8 +57,7 @@ export default {
   created () {
     this.fetchData().then(_=> {
       this.inputTitle = this.board.title
-      document.querySelector('body').style.backgroundColor = this.board.bgColor
-      document.querySelector('.header').style.backgroundColor = 'rgba(0,0,0,.15)'
+      this.SET_THEME(this.board.bgColor)
     })
   },
   updated () {
@@ -145,7 +144,8 @@ export default {
       'UPDATE_LIST'
     ]),
     ...mapMutations([
-      'SET_IS_SHOW_BOARD_MENU'
+      'SET_IS_SHOW_BOARD_MENU',
+      'SET_THEME'
     ]),
     fetchData () {
       return this.FETCH_BOARD(this.$route.params.id)

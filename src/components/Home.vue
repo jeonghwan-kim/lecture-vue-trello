@@ -8,10 +8,12 @@
         </router-link>
       </div>
       <div class="board-item">
-        <a class="new-board-btn" href="" @click.prevent="onClickCreateBoard">Create new board...</a>
+        <a class="new-board-btn" href="" @click.prevent="onClickCreateBoard">
+          Create new board...
+        </a>
       </div>
     </div>
-    <add-board v-if="isAddBoard"></add-board>
+    <AddBoard v-if="isAddBoard" />
   </div>
 </template>
 
@@ -24,16 +26,13 @@ export default {
   components: { AddBoard },
   computed: {
     ...mapState({
-        isAddBoard: 'isAddBoard',
-        boardList: 'boardList'
-      }),
+      isAddBoard: 'isAddBoard',
+      boardList: 'boardList'
+    }),
   },
   created() {
     this.FETCH_BOARD_LIST()
-  },
-  mounted() {
-    document.querySelector('body').style.backgroundColor = 'rgb(255,255,255)'
-    document.querySelector('.header').style.backgroundColor = '#026aa7'
+    this.SET_THEME()
   },
   updated() {
     Array.from(document.querySelectorAll('.board-item')).forEach(el => {
@@ -42,7 +41,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SET_IS_ADD_BOARD'
+      'SET_IS_ADD_BOARD',
+      'SET_THEME'
     ]),
     ...mapActions([
       'FETCH_BOARD_LIST',

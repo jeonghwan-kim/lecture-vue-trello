@@ -8,7 +8,6 @@ const Login = { template: '<div>Login Page</div>' }
 const NotFound = { template: '<div>Page not found</div>' }
 
 const router = new VueRouter({
-  mode: 'history',
   routes: [
     {path: '/', component: App},
     {path: '/login', component: Login},

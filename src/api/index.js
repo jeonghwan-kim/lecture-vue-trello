@@ -16,7 +16,11 @@ const request = (method, url, data) => {
     .catch(result => {
       const {status} = result.response
       if (status === UNAUTHORIZED) onUnauthorized()
+<<<<<<< HEAD
       throw result.response
+=======
+      throw Error(result.response)
+>>>>>>> axios를 래핑해서 사용하는 방법: api-service  구현
     })
 }
 

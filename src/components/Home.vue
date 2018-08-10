@@ -58,7 +58,8 @@ export default {
     },
     onAddBoard(title) {
       console.log(title)
-      // todo POST /boards 호출. 여기서 잠깐!
+      board.create(title)
+        .then(data => this.fetchData())
     }
   }
 }

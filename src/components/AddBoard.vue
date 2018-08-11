@@ -48,12 +48,14 @@ export default {
       'SET_IS_ADD_BOARD'
     ]),
     ...mapActions([
-      'ADD_BOARD'
+      'ADD_BOARD',
+      'FETCH_BOARDS'
     ]),
     addBoard() {
       this.SET_IS_ADD_BOARD(false)
-      this.ADD_BOARD({title: this.input})
-      this.$emit('submit')
+      this.ADD_BOARD({title: this.input}).then(_=> {
+        this.FETCH_BOARDS()
+      })
     }
   }
 }

@@ -49,7 +49,8 @@ export default {
     ]),
     addBoard() {
       this.SET_IS_ADD_BOARD(false)
-      this.$emit('submit', this.input)
+      this.$store.dispatch('ADD_BOARD', {title: this.input})
+      this.$emit('submit')
     }
   }
 }

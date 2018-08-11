@@ -43,10 +43,10 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('close')
+      this.$store.commit('SET_IS_ADD_BOARD', false)
     },
     addBoard() {
-      this.$emit('close')
+      this.$store.commit('SET_IS_ADD_BOARD', false)
       this.$emit('submit', this.input)
     }
   }

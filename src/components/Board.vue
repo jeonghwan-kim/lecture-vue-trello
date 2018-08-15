@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div v-if="loading">loading board...</div>
-    <div v-else>
-      <pre>{{board}}</pre>
-      <router-link :to="`/b/${bid}/c/1`">Card 1</router-link>
-      <router-link :to="`/b/${bid}/c/2`">Card 2</router-link>
-      <hr />
-      <router-view></router-view>
+    <div class="board-wrapper">
+      <div class="board">
+        <div class="board-header">
+          <span class="board-title">{{board.title}}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>

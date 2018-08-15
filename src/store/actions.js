@@ -12,6 +12,11 @@ const actions = {
     api.board.fetch().then(data => {
       commit('SET_BOARDS', data.list)
     })
+  },
+  FETCH_BOARD ({commit}, {id}) {
+    api.board.fetch(id).then(data => {
+      commit('SET_BOARD', data.item)
+    })
   }
 }  
 

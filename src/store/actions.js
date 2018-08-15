@@ -6,7 +6,7 @@ const actions = {
       .then(({accessToken}) => commit('LOGIN', accessToken))
   },
   ADD_BOARD (_, {title}) {
-    return api.board.create(title)
+    return api.board.create(title).then(data => data.itme)
   },
   FETCH_BOARDS ({commit}) {
     api.board.fetch().then(data => {

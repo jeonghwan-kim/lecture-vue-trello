@@ -3,7 +3,7 @@
     <form>
       <input class="form-control" type="text">
       <button class="btn btn-success" type="submit" >Add Card</button>
-      <a class="cancel-add-btn" href="">&times;</a>
+      <a class="cancel-add-btn" href="" @click.prevent="$emit('close')">&times;</a>
     </form>
   </div>
 </template>

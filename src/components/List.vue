@@ -3,9 +3,13 @@
     <div class="list-header">
       <div class="list-header-title">{{data.title}}</div>
     </div>
-
+    <div>
+      <div v-for="card in data.cards" :key="card.id">
+        {{card.title}}
+      </div>
+    </div>
     <div v-if="isAddCard">
-      <AddCard @close="isAddCard=false"/>
+      <AddCard :list-id="data.id" @close="isAddCard=false"/>
     </div>
     <div v-else>
       <a class="add-card-btn" href="" @click.prevent="isAddCard=true">

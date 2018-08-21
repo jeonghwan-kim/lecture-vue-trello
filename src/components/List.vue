@@ -3,11 +3,18 @@
     <div class="list-header">
       <div class="list-header-title">{{data.title}}</div>
     </div>
+
+    <div>
+      <AddCard />
+    </div>
   </div>
 </template>
 
 <script>
+import AddCard from './AddCard.vue'
+
 export default {
+  components: {AddCard},
   props: ['data'],
 }
 </script>

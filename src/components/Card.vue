@@ -45,7 +45,6 @@ export default {
       'UPDATE_CARD'
     ]),
     fetchCard() {
-      console.log('fetchcard')
       const id = this.$route.params.cid
       this.FETCH_CARD({id})
     },

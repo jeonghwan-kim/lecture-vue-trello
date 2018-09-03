@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="list" :data-list-id="data.id" >
     <div class="list-header">
       <div class="list-header-title">{{data.title}}</div>
     </div>
@@ -71,6 +71,7 @@ export default {
 .card-list {
   flex: 1 1 auto;
   overflow-y: scroll;
+  min-height: 10px;
 }
 .empty-card-item   {
   height: 10px;

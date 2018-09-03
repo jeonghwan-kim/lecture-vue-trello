@@ -2,7 +2,9 @@
   <Modal class="modal-card">
     <div slot="header" class="modal-card-header">
       <div class="modal-card-header-title">
-        <input class="form-control" type="text" :value="card.title" readonly>
+        <input class="form-control" type="text" :value="card.title" 
+          :readonly="!toggleTitle" @click="toggleTitle=true" @blur="onBlurTitle"
+          ref="inputTitle">
       </div>
       <a class="modal-close-btn" href="" @click.prevent="onClose">&times;</a>
     </div>
@@ -22,6 +24,11 @@ import {mapState, mapActions} from 'vuex'
 
 export default {
   components: {Modal},
+  data() {
+    return {
+      toggleTitle: false
+    }
+  },
   computed: {
     ...mapState({
       card: 'card',
@@ -29,13 +36,18 @@ export default {
     })
   },
   created() {
-    const id = this.$route.params.cid
-    this.FETCH_CARD({id})
+    this.fetchCard()
   },
   methods: {
     ...mapActions([
-      'FETCH_CARD'
+      'FETCH_CARD',
+      'UPDATE_CARD'
     ]),
+    fetchCard() {
+      console.log('fetchcard')
+      const id = this.$route.params.cid
+      this.FETCH_CARD({id})
+    },
     onClose() {
       this.$router.push(`/b/${this.board.id}`)
     },

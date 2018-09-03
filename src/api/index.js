@@ -31,6 +31,9 @@ export const board = {
   create(title) {
     return request('post', '/boards', {title})
   },
+  update(id, payload) {
+    return request('put', `/boards/${id}`, payload)
+  },
   destroy(id) {
     return request('delete', `/boards/${id}`)
   }

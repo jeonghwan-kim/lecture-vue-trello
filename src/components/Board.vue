@@ -3,7 +3,7 @@
     <div class="board-wrapper">
       <div class="board">
         <div class="board-header">
-          <input class="form-control" v-if="isEditTitle" type="text" v-model="inputTitle" 
+          <input class="form-control" v-if="isEditTitle" type="text" v-model="inputTitle"
             ref="inputTitle" @keyup.enter="onSubmitTitle" @blur="onSubmitTitle">
           <span v-else class="board-title" @click="onClickTitle">{{board.title}}</span>
           <a class="board-header-btn show-menu" href="" @click.prevent="onShowSettings" >... Show Menu</a>
@@ -126,7 +126,13 @@ export default {
     setListDragabble() {
       if (this.lDragger) this.lDragger.destroy()
 
-      this.lDragger = dragger.init(Array.from(this.$el.querySelectorAll('.list-section')))
+      const options = {
+        invalid: (el, handle) => !/^list/.test(handle.className)
+      }
+      this.lDragger = dragger.init(
+        Array.from(this.$el.querySelectorAll('.list-section')),
+        options
+      )
       this.lDragger.on('drop', (el, wrapper, target, silblings) => {
         const targetList = {
           id: el.dataset.listId * 1,
